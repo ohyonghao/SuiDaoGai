@@ -4,6 +4,9 @@
 #include <QMainWindow>
 #include <QJsonDocument>
 #include <QLabel>
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QStackedWidget>
 
 class MainWindow : public QMainWindow
 {
@@ -14,6 +17,15 @@ public:
     ~MainWindow();
 
 private:
+    void setupUI();
+
+    // Layout
+    QVBoxLayout *mainLayout;
+    QPushButton *pbConnect;
+    QPushButton *pbDisconnect;
+
+    QStackedWidget *swConnection;
+
     QJsonDocument *json;
     QLabel *ljson;
 

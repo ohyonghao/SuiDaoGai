@@ -33,9 +33,9 @@
 
 /*************************************************************************************
  * **** Milestones ****
+ * 3. Disconnect/Connect
  * 1. Reading json information and printing into a textarea
  * 2. Tracking state
- * 3. Disconnect/Connect
  * 4. Server Selection
  * 5. Settings
  *  i. Include location of speedify_cli
@@ -48,8 +48,27 @@ MainWindow::MainWindow(QWidget *parent)
       json{new QJsonDocument},
       ljson{new QLabel()}
 {
-    // For now we're setting the central widget to the label
-    this->setCentralWidget(ljson);
+    setupUI();
+
+    this->setCentralWidget(new QWidget);
+    centralWidget()->setLayout( mainLayout );
+
+
+}
+
+MainWindow::~MainWindow()
+{
+
+}
+
+void MainWindow::setupUI(){
+    mainLayout = new QVBoxLayout;
+    pbConnect = new QPushButton(tr("Connect"));
+    pbDisconnect = new QPushButton(tr("Disconnect"));
+    swConnection = new QStackedWidget;
+
+    swConnection->addWidget(pbConnect);
+    swConnection->addWidget(pbDisconnect);
 
     // Hardcode the json first, then work on reading in from speedify
     QByteArray fjson("{\n"
@@ -64,9 +83,7 @@ MainWindow::MainWindow(QWidget *parent)
                     "}");
     *json = json->fromJson(fjson);
     ljson->setText(json->toJson());
-}
 
-MainWindow::~MainWindow()
-{
-
+    mainLayout->addWidget(ljson);
+    mainLayout->addWidget(swConnection);
 }
