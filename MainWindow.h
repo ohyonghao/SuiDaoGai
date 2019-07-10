@@ -7,6 +7,7 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QStackedWidget>
+#include "Command.h"
 
 class MainWindow : public QMainWindow
 {
@@ -29,6 +30,10 @@ private:
     QJsonDocument *json;
     QLabel *ljson;
 
+    Command command;
+public slots:
+    void connected(){ swConnection->setCurrentWidget(pbDisconnect);}
+    void disconnected(){ swConnection->setCurrentWidget(pbConnect);}
 };
 
 #endif // MAINWINDOW_H

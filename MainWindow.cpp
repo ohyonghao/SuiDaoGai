@@ -70,6 +70,11 @@ void MainWindow::setupUI(){
     swConnection->addWidget(pbConnect);
     swConnection->addWidget(pbDisconnect);
 
+    connect(pbConnect, &QPushButton::clicked, &command, &Command::connectVPN);
+    connect(pbDisconnect, &QPushButton::clicked, &command, &Command::disconnectVPN);
+    connect(&command, &Command::connectedToVPN, this, &MainWindow::connected);
+    connect(&command, &Command::disconnectedFromVPN, this, &MainWindow::disconnected);
+
     // Hardcode the json first, then work on reading in from speedify
     QByteArray fjson("{\n"
                      "\"tag\":  \"gb-london-18\",\n"
