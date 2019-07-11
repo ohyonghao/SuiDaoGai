@@ -17,8 +17,9 @@ public slots:
 signals:
     void connectedToVPN();
     void disconnectedFromVPN();
+    void commandOutput(const QString&);
 private:
-    const QString cName= "speedify_cli";
+    const QString cName= "/usr/share/speedify/speedify_cli";
 };
 
 #endif // COMMAND_H

@@ -44,9 +44,7 @@
  */
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent),
-      json{new QJsonDocument},
-      ljson{new QLabel()}
+    : QMainWindow(parent)
 {
     setupUI();
 
@@ -75,20 +73,11 @@ void MainWindow::setupUI(){
     connect(&command, &Command::connectedToVPN, this, &MainWindow::connected);
     connect(&command, &Command::disconnectedFromVPN, this, &MainWindow::disconnected);
 
-    // Hardcode the json first, then work on reading in from speedify
-    QByteArray fjson("{\n"
-                     "\"tag\":  \"gb-london-18\",\n"
-                     "\"friendlyName\": \"Great Britain - London #18\",\n"
-                     "\"country\":      \"gb\",\n"
-                     "\"city\": \"london\",\n"
-                     "\"num\":  18,\n"
-                     "\"isPrivate\":    false,\n"
-                     "\"torrentAllowed\":       false,\n"
-                     "\"publicIP\":     [\"206.189.23.67\"]\n"
-                    "}");
-    *json = json->fromJson(fjson);
-    ljson->setText(json->toJson());
+    teDebugArea = new QTextEdit;
+    teDebugArea->setReadOnly(true);
 
-    mainLayout->addWidget(ljson);
+    connect(&command, &Command::commandOutput, teDebugArea, &QTextEdit::append);
+
+    mainLayout->addWidget(teDebugArea);
     mainLayout->addWidget(swConnection);
 }

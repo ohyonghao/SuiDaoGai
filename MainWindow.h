@@ -7,6 +7,7 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QStackedWidget>
+#include <QTextEdit>
 #include "Command.h"
 
 class MainWindow : public QMainWindow
@@ -27,8 +28,7 @@ private:
 
     QStackedWidget *swConnection;
 
-    QJsonDocument *json;
-    QLabel *ljson;
+    QTextEdit *teDebugArea;
 
     Command command;
 public slots:

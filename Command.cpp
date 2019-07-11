@@ -13,6 +13,7 @@ void Command::connectVPN(){
     process.start();
     process.waitForFinished();
     emit connectedToVPN();
+    emit commandOutput(process.readAllStandardOutput());
 }
 
 void Command::disconnectVPN(){
@@ -22,4 +23,5 @@ void Command::disconnectVPN(){
     process.start();
     process.waitForFinished();
     emit disconnectedFromVPN();
+    emit commandOutput(process.readAllStandardOutput());
 }
