@@ -51,6 +51,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->setCentralWidget(new QWidget);
     centralWidget()->setLayout( mainLayout );
 
+    command.checkState();
 
 }
 

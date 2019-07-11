@@ -1,27 +1,31 @@
 #include "Command.h"
 #include <QProcess>
 
+using namespace std;
+
 Command::Command()
 {
 
 }
-
+shared_ptr<QProcess> Command::runCommand( QStringList& parameters ){
+    shared_ptr<QProcess> process = make_shared<QProcess>();
+    process->setProgram(cName);
+    process->setArguments(parameters);
+    process->start();
+    process->waitForFinished();
+    emit commandOutput(process->readAllStandardOutput());
+    return process;
+}
 void Command::connectVPN(){
-    QProcess process;
-    process.setProgram(cName);
-    process.setArguments(QStringList() << "connect" << "gb");
-    process.start();
-    process.waitForFinished();
+    runCommand(QStringList() << "connect" << "gb");
     emit connectedToVPN();
-    emit commandOutput(process.readAllStandardOutput());
 }
 
 void Command::disconnectVPN(){
-    QProcess process;
-    process.setProgram(cName);
-    process.setArguments(QStringList() << "disconnect");
-    process.start();
-    process.waitForFinished();
+    runCommand(QStringList() << "disconnect");
     emit disconnectedFromVPN();
-    emit commandOutput(process.readAllStandardOutput());
+}
+
+void Command::checkState(){
+    runCommand(QStringList() << "state");
 }

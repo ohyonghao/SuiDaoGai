@@ -3,6 +3,9 @@
 
 #include <QObject>
 #include <QProcess>
+#include <QStringList>
+
+#include <memory>
 
 class Command: public QObject
 {
@@ -14,12 +17,15 @@ public:
 public slots:
     void connectVPN();
     void disconnectVPN();
+    void checkState();
 signals:
     void connectedToVPN();
     void disconnectedFromVPN();
     void commandOutput(const QString&);
 private:
     const QString cName= "/usr/share/speedify/speedify_cli";
+
+    std::shared_ptr<QProcess> runCommand( QStringList& parameters );
 };
 
 #endif // COMMAND_H
