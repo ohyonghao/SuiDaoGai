@@ -26,11 +26,13 @@ CONFIG += c++11
 
 SOURCES += \
         Command.cpp \
+        JsonVPNState.cpp \
         main.cpp \
         MainWindow.cpp
 
 HEADERS += \
         Command.h \
+        JsonVPNState.h \
         MainWindow.h
 
 # Default rules for deployment.

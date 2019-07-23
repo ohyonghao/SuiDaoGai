@@ -7,6 +7,9 @@ class JsonVPNState
 {
 public:
     JsonVPNState();
+
+public slots:
+    void readJSON(const QString&);
 };
 
 #endif // JSONVPNSTATE_H
