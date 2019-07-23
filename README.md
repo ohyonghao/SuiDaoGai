@@ -1,12 +1,15 @@
 # SuiDaoGai
 
 This project is a wrapper for a VPN service called Speedify. They provide a Linux CLI upon request which is still in Beta.
-This takes the CLI and creates a Qt GUI wrapper around it.
+This takes the CLI and creates a Qt GUI wrapper around it. Running the wrapper it assumes that `speedify_cli` is in the
+path. It makes use of creating multiple processes of `speedify_cli` and monitors the JSON output.
 
 # Contributers
+
 David Post
 
-# Getting the source
+# Build Instructions 
+## Getting the source
 
 You can grab the source from the GitHub repository:
 
@@ -14,13 +17,13 @@ You can grab the source from the GitHub repository:
 git clone https://github.com/ohyonghao/SuiDaoGai.git
 ```
 
-# Prerequisites
+## Prerequisites
 
 This program is built with Qt 5.13 using Qt Creator IDE 4.9.2.
 
 This also relies on features of C++ available in GCC 4.8.1 version of the C++ compiler.
 
-# Building
+## Building
 
 Build requires a C++ compiler and a Qt 5 environment. A Qt pro file is included in the repository.
 
