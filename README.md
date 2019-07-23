@@ -52,17 +52,17 @@ To do this we will need the following portions:
 ## Views
 1. Main Window
 2. Settings
-i. Login
-ii. Preferred server list
+    - Login
+    - Preferred server list
 3. Analysis
 4. Transfer
 5. Debugging
 
 ## Models
 1. Tracking statistics
- i. Up/Down transfered amount
- ii. Up/Down Speed
- iii. latency
+    - Up/Down transfered amount
+    - Up/Down Speed
+    - latency
 2. Server selection
 3. State of speedify, connected/disconnected, login/out
 
@@ -75,6 +75,6 @@ ii. Preferred server list
 2. Tracking state
 3. Server Selection
 5. Settings
-i. Include location of speedify_cli
+    - Include location of speedify_cli
 6. Login/Logout
 7. Telemetrics
