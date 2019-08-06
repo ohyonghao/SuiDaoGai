@@ -19,7 +19,7 @@ public:
     ~VPNProcessor() override;
 signals:
     void commandProcessed();
-    void stateChanged();
+    void stateChanged(JsonVPNState::ConnectionState);
     void serverListChanged(QList<QString>);
 public slots:
     void setServerName(QString servername);
@@ -55,6 +55,7 @@ private:
 
     QQueue<pmf> queued;
     void _queueProcess(pmf process);
+    void _connectCommandSignals();
 };
 
 #endif // VPNPROCESSOR_H

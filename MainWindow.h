@@ -31,10 +31,16 @@ private:
 
     QTextEdit *teDebugArea;
 
+    QLabel *status;
+
     VPNController controller;
 public slots:
-    void connected(){ swConnection->setCurrentWidget(pbDisconnect);}
-    void disconnected(){ swConnection->setCurrentWidget(pbConnect);}
+    void connected(){ swConnection->setCurrentWidget(pbDisconnect); swConnection->setEnabled(true);}
+    void disconnected(){ swConnection->setCurrentWidget(pbConnect); swConnection->setEnabled(true);}
+    void changeState(JsonVPNState::ConnectionState);
+
+private slots:
+
 };
 
 #endif // MAINWINDOW_H

@@ -19,6 +19,7 @@ void MainWindow::setupUI(){
     pbConnect = new QPushButton(tr("Connect"));
     pbDisconnect = new QPushButton(tr("Disconnect"));
     swConnection = new QStackedWidget;
+    status = new QLabel(tr("Unknown"));
 
     swConnection->addWidget(pbConnect);
     swConnection->addWidget(pbDisconnect);
@@ -27,6 +28,7 @@ void MainWindow::setupUI(){
     connect(pbDisconnect, &QPushButton::clicked, &controller, &VPNController::DisconnectFromVPN);
     connect(&controller, &VPNController::ConnectedToVPN, this, &MainWindow::connected);
     connect(&controller, &VPNController::DisconnectedFromVPN, this, &MainWindow::disconnected);
+    connect(&controller, &VPNController::stateChanged, this, &MainWindow::changeState);
 
     teDebugArea = new QTextEdit;
     teDebugArea->setReadOnly(true);
@@ -35,4 +37,25 @@ void MainWindow::setupUI(){
 
     mainLayout->addWidget(teDebugArea);
     mainLayout->addWidget(swConnection);
+    mainLayout->addWidget(status);
+}
+
+void MainWindow::changeState(JsonVPNState::ConnectionState state){
+    cout << "State Changed: ";
+    QString _state;
+    switch(state){
+    case JsonVPNState::LOGGED_IN:
+        _state = "Logged In";
+        disconnected();
+        break;
+    case JsonVPNState::CONNECTED:
+        _state = "Connected";
+        connected();
+        break;
+    default:
+        _state = "Unknown";
+        break;
+    }
+    status->setText(_state);
+    cout << _state.toStdString() << endl;
 }

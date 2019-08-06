@@ -21,7 +21,7 @@ private:
     VPNProcessor processor;
 
 signals:
-    void stateChanged(ConnectionState);
+    void stateChanged(JsonVPNState::ConnectionState);
     void ConnectedToVPN();
     void DisconnectedFromVPN();
     void CommandOutput(QString);
@@ -29,6 +29,8 @@ public slots:
     void ConnectToVPN(){ processor.QueueProcess(std::mem_fn(&VPNProcessor::ConnectToVPN)); }
     void DisconnectFromVPN(){ processor.QueueProcess(std::mem_fn(&VPNProcessor::DisconnectFromVPN)); }
 
+private:
+    void _connectVPNProcessorSignals();
 };
 
 #endif // VPNCONTROLLER_H

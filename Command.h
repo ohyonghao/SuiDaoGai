@@ -13,7 +13,7 @@ class Command: public QObject
     Q_OBJECT
 
 public:
-    Command();
+    Command(QObject *parent=nullptr);
 
 public slots:
     void connectVPN();
@@ -21,18 +21,26 @@ public slots:
     void checkState();
     void setServerNumber(int servernumber){_servernumber = servernumber;}
     void setServerName(QString servername){_servername = servername;}
+
+private slots:
+    void _changeState( JsonVPNState::ConnectionState _newstate );
+
 signals:
     void connectedToVPN();
     void disconnectedFromVPN();
     void commandOutput(const QString&);
-    void stateChanged(ConnectionState);
+    void stateChanged(JsonVPNState::ConnectionState);
 private:
+    void changeState( QJsonValue state );
+
     const QString cName= "/usr/share/speedify/speedify_cli";
 
     std::shared_ptr<QProcess> runCommand( QStringList& parameters );
 
     QString _servername;
     int _servernumber;
+
+    JsonVPNState::ConnectionState _currentState;
 };
 
 #endif // COMMAND_H

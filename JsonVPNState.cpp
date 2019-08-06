@@ -20,7 +20,7 @@ void JsonVPNState::readJSON( const QString &json ){
 
     if( djson["state"] == "CONNECTED" ){
         emit stateChanged(CONNECTED);
-    }else if( djson["state"] == "DISCONNECTED"){
-        emit stateChanged(DISCONNECTED);
+    }else if( djson["state"] == "LOGGED_IN"){
+        emit stateChanged(LOGGED_IN);
     }
 }

@@ -8,6 +8,7 @@ VPNProcessor::VPNProcessor(QObject *parent) :
 {
     _queueProcess(std::mem_fn(&VPNProcessor::GetCurrentState) );
     _command.setServerName("gb");
+    _connectCommandSignals();
 }
 
 VPNProcessor::~VPNProcessor(){
@@ -72,4 +73,8 @@ void VPNProcessor::_queueProcess(pmf process){
     QMutexLocker locker(&qmutex);
     queued.push_back(process);
     restartThread();
+}
+
+void VPNProcessor::_connectCommandSignals(){
+    connect( &_command, &Command::stateChanged, this, &VPNProcessor::stateChanged);
 }

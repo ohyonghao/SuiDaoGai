@@ -2,16 +2,19 @@
 #define JSONVPNSTATE_H
 
 #include <QObject>
-
-enum ConnectionState {
-    DISCONNECTED,
-    CONNECTED
-};
-
 class JsonVPNState: public QObject
 {
     Q_OBJECT
+
 public:
+    enum ConnectionState {
+        UNKNOWN,
+        LOGGED_IN,
+        CONNECTED
+    };
+
+    Q_ENUM(ConnectionState)
+
     JsonVPNState(QObject *parent);
 
 public slots:
