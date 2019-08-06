@@ -1,6 +1,6 @@
 #include "Command.h"
 #include <QProcess>
-
+#include <iostream>
 using namespace std;
 
 Command::Command()
@@ -8,11 +8,13 @@ Command::Command()
 
 }
 shared_ptr<QProcess> Command::runCommand( QStringList& parameters ){
+    cout << "RunCommand" << endl;
     shared_ptr<QProcess> process = make_shared<QProcess>();
     process->setProgram(cName);
     process->setArguments(parameters);
     process->start();
     process->waitForFinished();
+    cout << process->readAllStandardOutput().toStdString();
     emit commandOutput(process->readAllStandardOutput());
     return process;
 }

@@ -1,8 +1,13 @@
 #include "VPNProcessor.h"
-
-VPNProcessor::VPNProcessor(QObject *parent) : QThread(parent)
+#include <iostream>
+using namespace std;
+VPNProcessor::VPNProcessor(QObject *parent) :
+    QThread{parent},
+    restart{false},
+    abort{false}
 {
     _queueProcess(std::mem_fn(&VPNProcessor::GetCurrentState) );
+    _command.setServerName("gb");
 }
 
 VPNProcessor::~VPNProcessor(){
@@ -49,8 +54,8 @@ void VPNProcessor::run(){
             qmutex.unlock();
             func(this);
             {
+                cout << "Running Function" << endl;
                 mutex.lock();
-                // Do Stuff
                 mutex.unlock();
             }
             mutex.lock();
@@ -60,4 +65,11 @@ void VPNProcessor::run(){
             mutex.unlock();
         }
     }
+}
+
+void VPNProcessor::_queueProcess(pmf process){
+    cout << "Queued Process" << endl;
+    QMutexLocker locker(&qmutex);
+    queued.push_back(process);
+    restartThread();
 }

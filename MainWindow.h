@@ -9,7 +9,7 @@
 #include <QStackedWidget>
 #include <QTextEdit>
 
-#include "Command.h"
+#include "VPNController.h"
 
 class MainWindow : public QMainWindow
 {
@@ -31,7 +31,7 @@ private:
 
     QTextEdit *teDebugArea;
 
-    Command command;
+    VPNController controller;
 public slots:
     void connected(){ swConnection->setCurrentWidget(pbDisconnect);}
     void disconnected(){ swConnection->setCurrentWidget(pbConnect);}

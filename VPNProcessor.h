@@ -54,10 +54,7 @@ public:
 private:
 
     QQueue<pmf> queued;
-    void _queueProcess(pmf process){
-        QMutexLocker locker(&qmutex);
-        queued.push_back(process);
-        restartThread();}
+    void _queueProcess(pmf process);
 };
 
 #endif // VPNPROCESSOR_H

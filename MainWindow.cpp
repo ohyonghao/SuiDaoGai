@@ -7,9 +7,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     this->setCentralWidget(new QWidget);
     centralWidget()->setLayout( mainLayout );
-
-    command.checkState();
-
 }
 
 MainWindow::~MainWindow()
@@ -26,15 +23,15 @@ void MainWindow::setupUI(){
     swConnection->addWidget(pbConnect);
     swConnection->addWidget(pbDisconnect);
 
-    connect(pbConnect, &QPushButton::clicked, &command, &Command::connectVPN);
-    connect(pbDisconnect, &QPushButton::clicked, &command, &Command::disconnectVPN);
-    connect(&command, &Command::connectedToVPN, this, &MainWindow::connected);
-    connect(&command, &Command::disconnectedFromVPN, this, &MainWindow::disconnected);
+    connect(pbConnect, &QPushButton::clicked, &controller, &VPNController::ConnectToVPN);
+    connect(pbDisconnect, &QPushButton::clicked, &controller, &VPNController::DisconnectFromVPN);
+    connect(&controller, &VPNController::ConnectedToVPN, this, &MainWindow::connected);
+    connect(&controller, &VPNController::DisconnectedFromVPN, this, &MainWindow::disconnected);
 
     teDebugArea = new QTextEdit;
     teDebugArea->setReadOnly(true);
 
-    connect(&command, &Command::commandOutput, teDebugArea, &QTextEdit::append);
+    connect(&controller, &VPNController::CommandOutput, teDebugArea, &QTextEdit::append);
 
     mainLayout->addWidget(teDebugArea);
     mainLayout->addWidget(swConnection);
