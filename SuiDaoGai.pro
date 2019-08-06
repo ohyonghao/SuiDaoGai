@@ -27,13 +27,17 @@ CONFIG += c++11
 SOURCES += \
         Command.cpp \
         JsonVPNState.cpp \
+        VPNController.cpp \
+        VPNProcessor.cpp \
         main.cpp \
         MainWindow.cpp
 
 HEADERS += \
         Command.h \
         JsonVPNState.h \
-        MainWindow.h
+        MainWindow.h \
+        VPNController.h \
+        VPNProcessor.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

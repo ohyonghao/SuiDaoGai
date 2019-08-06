@@ -8,6 +8,7 @@
 #include <QVBoxLayout>
 #include <QStackedWidget>
 #include <QTextEdit>
+
 #include "Command.h"
 
 class MainWindow : public QMainWindow

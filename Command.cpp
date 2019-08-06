@@ -17,15 +17,20 @@ shared_ptr<QProcess> Command::runCommand( QStringList& parameters ){
     return process;
 }
 void Command::connectVPN(){
-    runCommand(QStringList() << "connect" << "gb");
+    QStringList params;
+    params << "connect" << _servername;
+    if( _servernumber > -1 )
+        params << QString::number(_servernumber);
+    auto process = runCommand( params );
+    // parse results
     emit connectedToVPN();
 }
 
 void Command::disconnectVPN(){
-    runCommand(QStringList() << "disconnect");
+    auto process = runCommand(QStringList() << "disconnect");
     emit disconnectedFromVPN();
 }
 
 void Command::checkState(){
-    runCommand(QStringList() << "state");
+    auto process = runCommand(QStringList() << "state");
 }
