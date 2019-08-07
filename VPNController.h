@@ -25,9 +25,15 @@ signals:
     void ConnectedToVPN();
     void DisconnectedFromVPN();
     void CommandOutput(QString);
+    void UpdateStatus(QString);
+
 public slots:
     void ConnectToVPN(){ processor.QueueProcess(std::mem_fn(&VPNProcessor::ConnectToVPN)); }
     void DisconnectFromVPN(){ processor.QueueProcess(std::mem_fn(&VPNProcessor::DisconnectFromVPN)); }
+    void CheckState(){ processor.QueueProcess(std::mem_fn(&VPNProcessor::GetCurrentState));}
+
+private slots:
+    void processOutput( const QJsonDocument djson );
 
 private:
     void _connectVPNProcessorSignals();

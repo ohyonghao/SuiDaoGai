@@ -1,12 +1,13 @@
 #include "VPNProcessor.h"
+
 #include <iostream>
 using namespace std;
+
 VPNProcessor::VPNProcessor(QObject *parent) :
     QThread{parent},
     restart{false},
     abort{false}
 {
-    _queueProcess(std::mem_fn(&VPNProcessor::GetCurrentState) );
     _command.setServerName("gb");
     _connectCommandSignals();
 }
@@ -77,4 +78,5 @@ void VPNProcessor::_queueProcess(pmf process){
 
 void VPNProcessor::_connectCommandSignals(){
     connect( &_command, &Command::stateChanged, this, &VPNProcessor::stateChanged);
+    connect( &_command, &Command::commandOutput, this, &VPNProcessor::commandOutput);
 }

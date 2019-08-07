@@ -21,19 +21,32 @@ shared_ptr<QProcess> Command::runCommand( QStringList& parameters ){
     process->setArguments(parameters);
     process->start();
     process->waitForFinished();
-    cout << process->readAllStandardOutput().toStdString();
-    emit commandOutput(process->readAllStandardOutput());
+    auto djson = QJsonDocument::fromJson(process->readAllStandardOutput());
+
+    cout << djson.toJson().toStdString();
+    emit commandOutput(djson);
     return process;
 }
 void Command::connectVPN(){
+    if(_servername.isEmpty()) return;
+
     QStringList params;
     params << "connect" << _servername;
+
+    // If we specified a number, append it
     if( _servernumber > -1 )
         params << QString::number(_servernumber);
     auto process = runCommand( params );
+
     // parse results
-    emit connectedToVPN();
-    emit stateChanged(JsonVPNState::CONNECTED);
+
+    QJsonDocument djson = QJsonDocument::fromJson(process->readAllStandardOutput());
+
+    if( djson["country"] != QJsonValue::Undefined ){
+        emit commandOutput(djson);
+        emit connectedToVPN();
+        emit stateChanged(JsonVPNState::CONNECTED);
+    }
 }
 
 void Command::disconnectVPN(){

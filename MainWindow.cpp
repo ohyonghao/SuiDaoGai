@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     this->setCentralWidget(new QWidget);
     centralWidget()->setLayout( mainLayout );
+    controller.CheckState();
 }
 
 MainWindow::~MainWindow()
@@ -28,34 +29,17 @@ void MainWindow::setupUI(){
     connect(pbDisconnect, &QPushButton::clicked, &controller, &VPNController::DisconnectFromVPN);
     connect(&controller, &VPNController::ConnectedToVPN, this, &MainWindow::connected);
     connect(&controller, &VPNController::DisconnectedFromVPN, this, &MainWindow::disconnected);
-    connect(&controller, &VPNController::stateChanged, this, &MainWindow::changeState);
 
     teDebugArea = new QTextEdit;
     teDebugArea->setReadOnly(true);
 
     connect(&controller, &VPNController::CommandOutput, teDebugArea, &QTextEdit::append);
-
+    connect(&controller, &VPNController::UpdateStatus, status, &QLabel::setText);
     mainLayout->addWidget(teDebugArea);
     mainLayout->addWidget(swConnection);
     mainLayout->addWidget(status);
 }
 
-void MainWindow::changeState(JsonVPNState::ConnectionState state){
-    cout << "State Changed: ";
-    QString _state;
-    switch(state){
-    case JsonVPNState::LOGGED_IN:
-        _state = "Logged In";
-        disconnected();
-        break;
-    case JsonVPNState::CONNECTED:
-        _state = "Connected";
-        connected();
-        break;
-    default:
-        _state = "Unknown";
-        break;
-    }
-    status->setText(_state);
-    cout << _state.toStdString() << endl;
+void MainWindow::updateStatus( QString message ){
+    status->setText(message);
 }

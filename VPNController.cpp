@@ -1,5 +1,10 @@
 #include "VPNController.h"
 
+#include <QJsonDocument>
+
+#include <iostream>
+using namespace std;
+
 VPNController::VPNController(QObject *parent) : QObject(parent)
 {
     _connectVPNProcessorSignals();
@@ -8,4 +13,20 @@ VPNController::VPNController(QObject *parent) : QObject(parent)
 
 void VPNController::_connectVPNProcessorSignals(){
     connect(&processor, &VPNProcessor::stateChanged, this, &VPNController::stateChanged );
+    connect(&processor, &VPNProcessor::commandOutput, this, &VPNController::processOutput);
+}
+
+void VPNController::processOutput(const QJsonDocument djson){
+    cout << "processOutput" << endl;
+    if( djson["friendlyName"] != QJsonValue::Undefined ){
+        cout << "friendlyName";
+        emit UpdateStatus(tr("Connected - %1").arg(djson["friendlyName"].toString()) );
+        emit ConnectedToVPN();
+    }
+
+    if( djson["state"] != QJsonValue::Undefined ){
+        cout << "state" << endl;
+        // State message
+    }
+    emit CommandOutput(QString::fromStdString(djson.toJson().toStdString()));
 }

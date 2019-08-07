@@ -8,6 +8,7 @@
 #include <QQueue>
 #include <QFunctionPointer>
 #include <QMutexLocker>
+#include <QJsonDocument>
 
 #include "Command.h"
 
@@ -21,6 +22,7 @@ signals:
     void commandProcessed();
     void stateChanged(JsonVPNState::ConnectionState);
     void serverListChanged(QList<QString>);
+    void commandOutput(const QJsonDocument);
 public slots:
     void setServerName(QString servername);
     void setServerNumber(int servernumber);
@@ -42,12 +44,12 @@ private:
     QString _servername;
     int _servernumber;
 
-    void GetCurrentState();
 public:
     void restartThread();
     // Processing functions
     void ConnectToVPN();
     void DisconnectFromVPN();
+    void GetCurrentState();
 
     typedef decltype(std::mem_fn<void(), VPNProcessor>(&VPNProcessor::ConnectToVPN)) pmf;
     void QueueProcess(pmf process){ _queueProcess(process);}

@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QProcess>
 #include <QStringList>
+#include <QJsonDocument>
 
 #include <memory>
 
@@ -28,7 +29,7 @@ private slots:
 signals:
     void connectedToVPN();
     void disconnectedFromVPN();
-    void commandOutput(const QString&);
+    void commandOutput(const QJsonDocument);
     void stateChanged(JsonVPNState::ConnectionState);
 private:
     void changeState( QJsonValue state );

@@ -37,7 +37,7 @@ private:
 public slots:
     void connected(){ swConnection->setCurrentWidget(pbDisconnect); swConnection->setEnabled(true);}
     void disconnected(){ swConnection->setCurrentWidget(pbConnect); swConnection->setEnabled(true);}
-    void changeState(JsonVPNState::ConnectionState);
+    void updateStatus(QString message);
 
 private slots:
 
