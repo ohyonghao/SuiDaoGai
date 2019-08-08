@@ -72,6 +72,8 @@ void VPNProcessor::_queueProcess(pmf process){
 }
 
 void VPNProcessor::_connectCommandSignals(){
-    connect( &_command, &Command::stateChanged, this, &VPNProcessor::stateChanged);
     connect( &_command, &Command::commandOutput, this, &VPNProcessor::commandOutput);
+    connect( &_command, &Command::connectCommandOutput, this, &VPNProcessor::connectCommandOutput);
+    connect( &_command, &Command::disconnectCommandOutput, this, &VPNProcessor::disconnectCommandOutput);
+    connect( &_command, &Command::stateCommandOutput, this, &VPNProcessor::stateCommandOutput);
 }

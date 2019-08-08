@@ -17,8 +17,19 @@ public:
 
     JsonVPNState(QObject *parent=nullptr);
 
+    JsonVPNState::ConnectionState currentState() const{return state;}
+    const QString& getFriendlyName() const{return friendlyName;}
+    const QString& getTag() const{return tag;}
+
+signals:
+    void VPNStateChanged();
+    void ConnectedToVPN();
+    void DisconnectedFromVPN();
 public slots:
-    void readJSON(const QJsonDocument &djson);
+    void readConnectionJSON( const QJsonDocument& djson );
+    void readStateJSON( const QJsonDocument& djson );
+    void readStatJSON( const QJsonDocument& djson );
+    void readDisconnectJSON( const QJsonDocument& djson);
 
 private:
     QString servername;

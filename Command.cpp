@@ -7,12 +7,9 @@
 using namespace std;
 
 Command::Command(QObject *parent):
-    QObject{parent},
-    _currentState{JsonVPNState::UNKNOWN}
+    QObject{parent}
 
 {
-    connect(this, &Command::stateChanged, this, &Command::_changeState);
-    qRegisterMetaType<JsonVPNState::ConnectionState>();
 }
 QJsonDocument Command::runCommand( QStringList& parameters ){
     cout << "RunCommand" << endl;
@@ -41,42 +38,17 @@ void Command::connectVPN(){
     // parse results
 
     if( !djson["country"].isUndefined() ){
-        emit commandOutput(djson);
-        emit connectedToVPN();
-        emit stateChanged(JsonVPNState::CONNECTED);
+        emit connectCommandOutput(djson);
     }
 }
 
 void Command::disconnectVPN(){
-    auto process = runCommand(QStringList() << "disconnect");
-    emit disconnectedFromVPN();
-    emit stateChanged(JsonVPNState::LOGGED_IN);
+    auto djson = runCommand(QStringList() << "disconnect");
+    emit disconnectCommandOutput(djson);
 }
 
 void Command::checkState(){
     cout << "CheckState" << endl;
     auto djson = runCommand(QStringList() << "state");
-
-    if( !djson["state"].isUndefined() ){
-        cout << "State Changed to " << djson["state"].toString().toStdString() << endl;
-        changeState( djson["state"] );
-    }else{
-        cout << "Undefined" << endl;
-    }
-}
-
-void Command::changeState(QJsonValue _state){
-    QString state = _state.toString();
-    cout << "Change State to " << state.toStdString() << endl;
-    if( state == "LOGGED_IN" ){
-        emit stateChanged(JsonVPNState::LOGGED_IN);
-    }else if( state == "CONNECTED" ){
-        emit stateChanged(JsonVPNState::CONNECTED);
-    }else {
-        emit stateChanged(JsonVPNState::UNKNOWN);
-    }
-}
-
-void Command::_changeState( JsonVPNState::ConnectionState _newstate ){
-    _currentState = _newstate;
+    emit stateCommandOutput(djson);
 }
