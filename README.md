@@ -46,11 +46,11 @@ The purpose for this program is to create a Qt frontend to the speedify-cli clie
 so that we can more easily use this for connecting to the VPN.
 
 To do this we will need the following portions:
- 1. json to model
+ 1. ~~json to model~~
  2. Command to json
 
 ## Views
-1. Main Window
+1. ~~Main Window~~
 2. Settings
     - Login
     - Preferred server list
@@ -64,14 +64,14 @@ To do this we will need the following portions:
     - Up/Down Speed
     - latency
 2. Server selection
-3. State of speedify, connected/disconnected, login/out
+3. ~~State of speedify, connected/disconnected, login/out~~
 
 ## Other things to work on and solve
-- Make the program go to an icon in the task bar
+- ~~Make the program go to an icon in the task bar~~
 - Allow for fixing the nameserver
 
 ## Milestones
-1. Disconnect/Connect
+1. ~~Disconnect/Connect~~
 2. Tracking state
 3. Server Selection
 5. Settings
