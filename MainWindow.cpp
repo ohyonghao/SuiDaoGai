@@ -33,11 +33,15 @@ void MainWindow::setupUI(){
     swConnection->addWidget(pbDisconnect);
 
     connect(pbConnect, &QPushButton::clicked, &controller, &VPNController::ConnectToVPN);
+    connect(pbConnect, &QPushButton::clicked, this, &MainWindow::disableConnectionButtons);
     connect(pbDisconnect, &QPushButton::clicked, &controller, &VPNController::DisconnectFromVPN);
+    connect(pbDisconnect, &QPushButton::clicked, this, &MainWindow::disableConnectionButtons);
 
     connect(&controller, &VPNController::VPNStateChanged, this, &MainWindow::VPNStateChanged);
     connect(&controller, &VPNController::ConnectedToVPN, this, &MainWindow::connected);
     connect(&controller, &VPNController::DisconnectedFromVPN, this, &MainWindow::disconnected);
+    connect(&controller, &VPNController::ConnectToVPN, this, &MainWindow::enableConnectionButtons);
+    connect(&controller, &VPNController::DisconnectedFromVPN, this, &MainWindow::enableConnectionButtons);
 
     teDebugArea = new QTextEdit;
     teDebugArea->setReadOnly(true);
@@ -115,4 +119,12 @@ void MainWindow::VPNStateChanged(){
         setIcon("./unknown.png");
         updateStatus( tr( "Unknown") );
     }
+}
+
+void MainWindow::disableConnectionButtons(){
+    swConnection->setDisabled(true);
+}
+
+void MainWindow::enableConnectionButtons(){
+    swConnection->setDisabled(false);
 }

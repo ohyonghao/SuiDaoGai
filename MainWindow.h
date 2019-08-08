@@ -49,6 +49,9 @@ private slots:
     void onShowHide(QSystemTrayIcon::ActivationReason);
     void onShowHide( bool /*triggered*/);
     void onExit( bool /*triggered*/ );
+
+    void disableConnectionButtons();
+    void enableConnectionButtons();
 };
 
 #endif // MAINWINDOW_H
