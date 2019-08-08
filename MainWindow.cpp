@@ -9,6 +9,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+    createMenu();
     setupUI();
     createTrayIcon();
 
@@ -24,6 +25,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupUI(){
     mainLayout = new QVBoxLayout;
+    mainLayout->setMenuBar(menuBar);
     pbConnect = new QPushButton(tr("Connect"));
     pbDisconnect = new QPushButton(tr("Disconnect"));
     swConnection = new QStackedWidget;
@@ -51,7 +53,19 @@ void MainWindow::setupUI(){
     mainLayout->addWidget(swConnection);
     mainLayout->addWidget(status);
 }
+void MainWindow::createMenu(){
+    menuBar = new QMenuBar;
+    fileMenu = new QMenu(tr("&File"), this);
 
+    QAction *action;
+    action = fileMenu->addAction(tr("C&lose Window"));
+    connect(action, &QAction::triggered, this, &QMainWindow::close);
+    action = fileMenu->addAction(tr("E&xit"));
+    connect(action, &QAction::triggered, this, &QApplication::quit);
+
+    menuBar->addMenu(fileMenu);
+
+}
 void MainWindow::createTrayIcon(){
     sysTrayIcon = new QSystemTrayIcon(QIcon("./unknown.png"));
     connect( sysTrayIcon, &QSystemTrayIcon::activated, this, QOverload<QSystemTrayIcon::ActivationReason>::of(&MainWindow::onShowHide));

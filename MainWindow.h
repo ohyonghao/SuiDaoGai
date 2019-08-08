@@ -9,6 +9,9 @@
 #include <QStackedWidget>
 #include <QTextEdit>
 #include <QSystemTrayIcon>
+#include <QMenu>
+#include <QMenuBar>
+#include <QAction>
 
 #include "VPNController.h"
 
@@ -23,6 +26,7 @@ public:
 private:
     void setupUI();
     void createTrayIcon();
+    void createMenu();
     void setIcon( QString icon );
 
     // Layout
@@ -37,6 +41,11 @@ private:
     QLabel *status;
 
     QSystemTrayIcon *sysTrayIcon;
+
+
+    QMenuBar        *menuBar;
+    QMenu           *fileMenu;
+    QAction         *exitAction;
 
     VPNController controller;
 public slots:
