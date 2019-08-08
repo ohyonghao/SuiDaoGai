@@ -42,7 +42,7 @@ void MainWindow::setupUI(){
     connect(&controller, &VPNController::VPNStateChanged, this, &MainWindow::VPNStateChanged);
     connect(&controller, &VPNController::ConnectedToVPN, this, &MainWindow::connected);
     connect(&controller, &VPNController::DisconnectedFromVPN, this, &MainWindow::disconnected);
-    connect(&controller, &VPNController::ConnectToVPN, this, &MainWindow::enableConnectionButtons);
+    connect(&controller, &VPNController::ConnectedToVPN, this, &MainWindow::enableConnectionButtons);
     connect(&controller, &VPNController::DisconnectedFromVPN, this, &MainWindow::enableConnectionButtons);
 
     teDebugArea = new QTextEdit;
@@ -58,6 +58,8 @@ void MainWindow::createMenu(){
     fileMenu = new QMenu(tr("&File"), this);
 
     QAction *action;
+    action = fileMenu->addAction(tr("S&ettings"));
+    action->setDisabled(true);
     action = fileMenu->addAction(tr("C&lose Window"));
     connect(action, &QAction::triggered, this, &QMainWindow::close);
     action = fileMenu->addAction(tr("E&xit"));
