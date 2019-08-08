@@ -8,6 +8,7 @@
 #include <QVBoxLayout>
 #include <QStackedWidget>
 #include <QTextEdit>
+#include <QSystemTrayIcon>
 
 #include "VPNController.h"
 
@@ -21,6 +22,8 @@ public:
 
 private:
     void setupUI();
+    void createTrayIcon();
+    void setIcon( QString icon );
 
     // Layout
     QVBoxLayout *mainLayout;
@@ -33,6 +36,8 @@ private:
 
     QLabel *status;
 
+    QSystemTrayIcon *sysTrayIcon;
+
     VPNController controller;
 public slots:
     void connected(){ swConnection->setCurrentWidget(pbDisconnect); swConnection->setEnabled(true);}
@@ -41,7 +46,9 @@ public slots:
     void VPNStateChanged();
 
 private slots:
-
+    void onShowHide(QSystemTrayIcon::ActivationReason);
+    void onShowHide( bool /*triggered*/);
+    void onExit( bool /*triggered*/ );
 };
 
 #endif // MAINWINDOW_H

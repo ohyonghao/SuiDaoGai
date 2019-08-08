@@ -27,7 +27,6 @@ signals:
     void ConnectedToVPN();
     void DisconnectedFromVPN();
     void CommandOutput(QString);
-    void UpdateStatus(QString);
     void VPNStateChanged();
 
 public slots:

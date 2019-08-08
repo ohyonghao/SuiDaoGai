@@ -25,7 +25,7 @@ void VPNController::_connectJsonVPNStateSignals(){
 }
 
 void VPNController::processOutput(const QJsonDocument djson){
-    cout << "processOutput" << endl;
+    cout << "processOutput" << endl;/*
     if( djson["friendlyName"] != QJsonValue::Undefined ){
         cout << "friendlyName";
         emit UpdateStatus(tr("Connected - %1").arg(djson["friendlyName"].toString()) );
@@ -44,6 +44,6 @@ void VPNController::processOutput(const QJsonDocument djson){
         }else{
             emit UpdateStatus(tr("Unknown"));
         }
-    }
+    }*/
     emit CommandOutput(QString::fromStdString(djson.toJson().toStdString()));
 }
