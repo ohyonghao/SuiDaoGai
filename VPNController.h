@@ -16,6 +16,7 @@ class VPNController : public QObject
     Q_OBJECT
 public:
     explicit VPNController(QObject *parent = nullptr);
+    const JsonVPNState& getModel() const{return model;}
 
 private:
     VPNProcessor processor;
@@ -27,6 +28,7 @@ signals:
     void DisconnectedFromVPN();
     void CommandOutput(QString);
     void UpdateStatus(QString);
+    void VPNStateChanged();
 
 public slots:
     void ConnectToVPN(){ processor.QueueProcess(std::mem_fn(&VPNProcessor::ConnectToVPN)); }
@@ -38,6 +40,7 @@ private slots:
 
 private:
     void _connectVPNProcessorSignals();
+    void _connectJsonVPNStateSignals();
 };
 
 #endif // VPNCONTROLLER_H

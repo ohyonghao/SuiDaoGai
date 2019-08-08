@@ -23,16 +23,14 @@ public slots:
     void setServerNumber(int servernumber){_servernumber = servernumber;}
     void setServerName(QString servername){_servername = servername;}
 
-private slots:
-    void _changeState( JsonVPNState::ConnectionState _newstate );
-
 signals:
     void connectedToVPN();
     void disconnectedFromVPN();
     void commandOutput(const QJsonDocument);
-    void stateChanged(JsonVPNState::ConnectionState);
+    void connectCommandOutput(const QJsonDocument);
+    void disconnectCommandOutput(const QJsonDocument);
+    void stateCommandOutput(const QJsonDocument);
 private:
-    void changeState( QJsonValue state );
 
     const QString cName= "/usr/share/speedify/speedify_cli";
 
@@ -40,8 +38,6 @@ private:
 
     QString _servername;
     int _servernumber;
-
-    JsonVPNState::ConnectionState _currentState;
 };
 
 #endif // COMMAND_H

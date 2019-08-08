@@ -20,9 +20,10 @@ public:
     ~VPNProcessor() override;
 signals:
     void commandProcessed();
-    void stateChanged(JsonVPNState::ConnectionState);
-    void serverListChanged(QList<QString>);
     void commandOutput(const QJsonDocument);
+    void connectCommandOutput(const QJsonDocument);
+    void disconnectCommandOutput(const QJsonDocument);
+    void stateCommandOutput(const QJsonDocument);
 public slots:
     void setServerName(QString servername);
     void setServerNumber(int servernumber);

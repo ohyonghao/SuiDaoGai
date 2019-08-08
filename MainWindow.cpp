@@ -1,5 +1,7 @@
 #include "MainWindow.h"
 
+#include "JsonVPNState.h"
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
@@ -42,4 +44,19 @@ void MainWindow::setupUI(){
 
 void MainWindow::updateStatus( QString message ){
     status->setText(message);
+}
+
+void MainWindow::VPNStateChanged(){
+    // Get the new information and update the UI
+    auto& model = controller.getModel();
+    switch(model.currentState() ){
+    case JsonVPNState::CONNECTED:
+        updateStatus( tr("Connected - %1" ).arg(model.getFriendlyName()) );
+        break;
+    case JsonVPNState::LOGGED_IN:
+        updateStatus( tr( "Logged In - Disconnected" ) );
+        break;
+    case JsonVPNState::UNKNOWN:
+        updateStatus( tr( "Unknonw") );
+    }
 }

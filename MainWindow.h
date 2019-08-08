@@ -38,6 +38,7 @@ public slots:
     void connected(){ swConnection->setCurrentWidget(pbDisconnect); swConnection->setEnabled(true);}
     void disconnected(){ swConnection->setCurrentWidget(pbConnect); swConnection->setEnabled(true);}
     void updateStatus(QString message);
+    void VPNStateChanged();
 
 private slots:
 
