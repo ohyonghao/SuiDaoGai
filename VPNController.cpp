@@ -27,6 +27,15 @@ void VPNController::processOutput(const QJsonDocument djson){
     if( djson["state"] != QJsonValue::Undefined ){
         cout << "state" << endl;
         // State message
+        if( djson["state"].toString() == "CONNECTED"){
+            emit UpdateStatus(tr("Connected"));
+            emit ConnectedToVPN();
+        }else if( djson["state"].toString( ) == "LOGGED_IN"){
+            emit UpdateStatus(tr("Logged In - Disconnected"));
+            emit DisconnectedFromVPN();
+        }else{
+            emit UpdateStatus(tr("Unknown"));
+        }
     }
     emit CommandOutput(QString::fromStdString(djson.toJson().toStdString()));
 }

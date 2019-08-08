@@ -3,24 +3,36 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 
-JsonVPNState::JsonVPNState(QObject *parent):QObject(parent)
+#include <vector>
+#include <utility>
+using namespace std;
+
+JsonVPNState::JsonVPNState(QObject *parent):QObject(parent),
+    servername{},
+    servernumber{-1},
+    friendlyName{},
+    tag{},
+    country{},
+    city{},
+    isPrivate{false},
+    torrentAllowed{false}
 {
 
 }
 
-void JsonVPNState::readJSON( const QString &json ){
+void JsonVPNState::readJSON( const QJsonDocument &djson ){
     // Create a json document
-    QJsonDocument djson = QJsonDocument::fromJson(json.toUtf8());
-
-    // Quick check for valid document
-    if( djson.isEmpty() ) return;
-
-    // Probably need to check what kind of json
-    // we are reading
-
-    if( djson["state"] == "CONNECTED" ){
-        emit stateChanged(CONNECTED);
-    }else if( djson["state"] == "LOGGED_IN"){
-        emit stateChanged(LOGGED_IN);
+    vector<pair<QString*,QString>> strings;
+    strings.push_back( make_pair(&friendlyName, "friendlyName") );
+    strings.push_back( make_pair(&tag,"tag"));
+    strings.push_back( make_pair(&country,"country"));
+    strings.push_back( make_pair(&city,"city"));
+    strings.push_back( make_pair(&servername,"servername"));
+    for(auto item: strings ){
+        if( !djson[item.second].isUndefined() ){
+            *(item.first) = djson[item.second].toString();
+        }
     }
+
+
 }

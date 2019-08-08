@@ -55,11 +55,6 @@ void VPNProcessor::run(){
             auto func = queued.takeFirst();
             qmutex.unlock();
             func(this);
-            {
-                cout << "Running Function" << endl;
-                mutex.lock();
-                mutex.unlock();
-            }
             mutex.lock();
             if(queued.isEmpty()){
                 condition.wait(&mutex);

@@ -15,14 +15,25 @@ public:
 
     Q_ENUM(ConnectionState)
 
-    JsonVPNState(QObject *parent);
+    JsonVPNState(QObject *parent=nullptr);
 
 public slots:
-    void readJSON(const QString&);
+    void readJSON(const QJsonDocument &djson);
 
-signals:
-    void invalidJSON();
-    void stateChanged(ConnectionState state);
+private:
+    QString servername;
+    int servernumber;
+
+    QString friendlyName;
+    QString tag;
+    QString country;
+    QString city;
+
+    bool isPrivate;
+    bool torrentAllowed;
+
+    ConnectionState state{UNKNOWN};
+
 };
 
 #endif // JSONVPNSTATE_H

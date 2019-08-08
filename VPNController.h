@@ -19,6 +19,7 @@ public:
 
 private:
     VPNProcessor processor;
+    JsonVPNState model;
 
 signals:
     void stateChanged(JsonVPNState::ConnectionState);

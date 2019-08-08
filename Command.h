@@ -36,7 +36,7 @@ private:
 
     const QString cName= "/usr/share/speedify/speedify_cli";
 
-    std::shared_ptr<QProcess> runCommand( QStringList& parameters );
+    QJsonDocument runCommand( QStringList& parameters );
 
     QString _servername;
     int _servernumber;

@@ -14,7 +14,7 @@ Command::Command(QObject *parent):
     connect(this, &Command::stateChanged, this, &Command::_changeState);
     qRegisterMetaType<JsonVPNState::ConnectionState>();
 }
-shared_ptr<QProcess> Command::runCommand( QStringList& parameters ){
+QJsonDocument Command::runCommand( QStringList& parameters ){
     cout << "RunCommand" << endl;
     shared_ptr<QProcess> process = make_shared<QProcess>();
     process->setProgram(cName);
@@ -25,7 +25,7 @@ shared_ptr<QProcess> Command::runCommand( QStringList& parameters ){
 
     cout << djson.toJson().toStdString();
     emit commandOutput(djson);
-    return process;
+    return djson;
 }
 void Command::connectVPN(){
     if(_servername.isEmpty()) return;
@@ -36,13 +36,11 @@ void Command::connectVPN(){
     // If we specified a number, append it
     if( _servernumber > -1 )
         params << QString::number(_servernumber);
-    auto process = runCommand( params );
+    auto djson = runCommand( params );
 
     // parse results
 
-    QJsonDocument djson = QJsonDocument::fromJson(process->readAllStandardOutput());
-
-    if( djson["country"] != QJsonValue::Undefined ){
+    if( !djson["country"].isUndefined() ){
         emit commandOutput(djson);
         emit connectedToVPN();
         emit stateChanged(JsonVPNState::CONNECTED);
@@ -56,17 +54,20 @@ void Command::disconnectVPN(){
 }
 
 void Command::checkState(){
-    auto process = runCommand(QStringList() << "state");
+    cout << "CheckState" << endl;
+    auto djson = runCommand(QStringList() << "state");
 
-    QJsonDocument djson = QJsonDocument::fromJson(process->readAllStandardOutput());
-
-    if(djson["state"] != QJsonValue::Undefined ){
+    if( !djson["state"].isUndefined() ){
+        cout << "State Changed to " << djson["state"].toString().toStdString() << endl;
         changeState( djson["state"] );
+    }else{
+        cout << "Undefined" << endl;
     }
 }
 
 void Command::changeState(QJsonValue _state){
     QString state = _state.toString();
+    cout << "Change State to " << state.toStdString() << endl;
     if( state == "LOGGED_IN" ){
         emit stateChanged(JsonVPNState::LOGGED_IN);
     }else if( state == "CONNECTED" ){
