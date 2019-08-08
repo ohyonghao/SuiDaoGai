@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <utility>
+#include <iostream>
 using namespace std;
 
 JsonVPNState::JsonVPNState(QObject *parent):QObject(parent),
@@ -21,6 +22,7 @@ JsonVPNState::JsonVPNState(QObject *parent):QObject(parent),
 }
 
 void JsonVPNState::readConnectionJSON(const QJsonDocument &djson){
+    cout << "readConnectionJSON" << endl;
     // Create a json document
     vector<pair<QString*,QString>> strings;
     strings.push_back( make_pair(&friendlyName, "friendlyName") );
@@ -33,13 +35,15 @@ void JsonVPNState::readConnectionJSON(const QJsonDocument &djson){
             *(item.first) = djson[item.second].toString();
         }
     }
+    state = CONNECTED;
+    emit ConnectedToVPN();
     emit VPNStateChanged();
 
 }
 
 void JsonVPNState::readDisconnectJSON(const QJsonDocument &djson ){
 
-    readStatJSON(djson);
+    readStateJSON(djson);
 }
 
 void JsonVPNState::readStatJSON(const QJsonDocument &/*djson*/ ){
@@ -47,22 +51,23 @@ void JsonVPNState::readStatJSON(const QJsonDocument &/*djson*/ ){
 }
 
 void JsonVPNState::readStateJSON(const QJsonDocument &djson){
+    cout << "readStateJSON" << endl;
     if( !djson["state"].isUndefined() ){
-        QString state = djson["state"].toString();
+        cout << "reading state: " << djson["state"].toString().toStdString() << endl;
         bool stateChanged = false;
-        if( djson["state"] == "LOGGED_IN" && state != JsonVPNState::LOGGED_IN ){
+        if( djson["state"] == "LOGGED_IN" && state != LOGGED_IN ){
             auto prevstate = state;
-            state = JsonVPNState::LOGGED_IN;
+            state = LOGGED_IN;
             stateChanged = true;
             if(prevstate == CONNECTED ){
                 emit DisconnectedFromVPN();
             }
-        }else if( djson["state"] == "CONNECTED" && state != JsonVPNState::CONNECTED ){
-            state = JsonVPNState::CONNECTED;
+        }else if( djson["state"] == "CONNECTED" && state != CONNECTED ){
+            state = CONNECTED;
             emit ConnectedToVPN();
             stateChanged = true;
-        }else if( state != JsonVPNState::UNKNOWN ){
-            state = JsonVPNState::UNKNOWN;
+        }else if( djson["state"] != "CONNECTED" && djson["state"] != "LOGGED_IN" && state != UNKNOWN ){
+            state = UNKNOWN;
             stateChanged = true;
         }
         if(stateChanged) emit VPNStateChanged( );
