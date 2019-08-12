@@ -25,6 +25,5 @@ void VPNController::_connectJsonVPNStateSignals(){
 }
 
 void VPNController::processOutput(const QJsonDocument djson){
-    cout << "processOutput" << endl;
     emit CommandOutput(QString::fromStdString(djson.toJson().toStdString()));
 }

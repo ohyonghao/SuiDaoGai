@@ -22,7 +22,6 @@ JsonVPNState::JsonVPNState(QObject *parent):QObject(parent),
 }
 
 void JsonVPNState::readConnectionJSON(const QJsonDocument &djson){
-    cout << "readConnectionJSON" << endl;
     // Create a json document
     vector<pair<QString*,QString>> strings;
     strings.push_back( make_pair(&friendlyName, "friendlyName") );
@@ -51,9 +50,7 @@ void JsonVPNState::readStatJSON(const QJsonDocument &/*djson*/ ){
 }
 
 void JsonVPNState::readStateJSON(const QJsonDocument &djson){
-    cout << "readStateJSON" << endl;
     if( !djson["state"].isUndefined() ){
-        cout << "reading state: " << djson["state"].toString().toStdString() << endl;
         bool stateChanged = false;
         if( djson["state"] == "LOGGED_IN" && state != LOGGED_IN ){
             auto prevstate = state;

@@ -12,7 +12,6 @@ Command::Command(QObject *parent):
 {
 }
 QJsonDocument Command::runCommand( QStringList& parameters ){
-    cout << "RunCommand" << endl;
     shared_ptr<QProcess> process = make_shared<QProcess>();
     process->setProgram(cName);
     process->setArguments(parameters);
@@ -20,7 +19,6 @@ QJsonDocument Command::runCommand( QStringList& parameters ){
     process->waitForFinished();
     auto djson = QJsonDocument::fromJson(process->readAllStandardOutput());
 
-    cout << djson.toJson().toStdString();
     emit commandOutput(djson);
     return djson;
 }
@@ -48,7 +46,6 @@ void Command::disconnectVPN(){
 }
 
 void Command::checkState(){
-    cout << "CheckState" << endl;
     auto djson = runCommand(QStringList() << "state");
     emit stateCommandOutput(djson);
 }

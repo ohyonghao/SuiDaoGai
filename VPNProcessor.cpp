@@ -65,7 +65,6 @@ void VPNProcessor::run(){
 }
 
 void VPNProcessor::_queueProcess(pmf process){
-    cout << "Queued Process" << endl;
     QMutexLocker locker(&qmutex);
     queued.push_back(process);
     restartThread();
