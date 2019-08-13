@@ -37,8 +37,21 @@ make
 ./SuiDaoGai-qt
 ```
 
+## Running
+
+This requires that the Speedify VPN Linux client be running in daemon mode. Currently you
+will also need to login to the Speedify service from the CLI. This is road mapped as a
+feature that will be added later on.
+
+Once logged in you can then start SuiDaoGai. Closing the window will minimize to the 
+system task bar.
+
+To exit the program you can either right click on the task bar icon and choose "Exit",
+or from the window use the "File" menu and choose "Exit".
+
 # License
 This project is relased under the "GPL-3.0 License" found in the `LICENSE` file.
+
 
 # Road Map
 
